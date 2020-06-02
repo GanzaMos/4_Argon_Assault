@@ -11,6 +11,17 @@ public class Player : MonoBehaviour
     [SerializeField] float xMaxOffset = 30f;
     [SerializeField] float yMaxOffset = 15f;
 
+    [SerializeField] float pitchOffset = 10f;
+    [SerializeField] float yawOffset = 10f;
+
+    [SerializeField] float pitchOffsetMoment = 10f;
+    [SerializeField] float yawOffsetMoment = 30f;
+    [SerializeField] float rollOffsetMoment = 30f;
+
+
+
+    float xThrow, yThrow;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,10 +31,29 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float xThrow = CrossPlatformInputManager.GetAxis("Horizontal");
+        ProcessTranslation();
+        ProcessRotation();
+
+    }
+
+    private void ProcessRotation()
+    {
+        float pitch = pitchOffset  / yMaxOffset * transform.localPosition.y + -yThrow * pitchOffsetMoment;
+        float yaw = -yawOffset / xMaxOffset * transform.localPosition.x + xThrow * yawOffsetMoment; ;
+        float roll = CrossPlatformInputManager.GetAxis("Horizontal") * -rollOffsetMoment + transform.localRotation.z;
+        transform.localRotation = Quaternion.Euler(
+            pitch,
+            yaw, 
+            roll
+            );
+    }
+
+    private void ProcessTranslation()
+    {
+        xThrow = CrossPlatformInputManager.GetAxis("Horizontal");
         float xOffset = xThrow * xSpeed * Time.deltaTime;
 
-        float yThrow = CrossPlatformInputManager.GetAxis("Vertical");
+        yThrow = CrossPlatformInputManager.GetAxis("Vertical");
         float yOffset = yThrow * ySpeed * Time.deltaTime;
 
         transform.localPosition = new Vector3
@@ -32,9 +62,5 @@ public class Player : MonoBehaviour
             Mathf.Clamp(transform.localPosition.y + yOffset, -yMaxOffset, yMaxOffset),
             transform.localPosition.z
             );
-
-        
-        
-
     }
 }
