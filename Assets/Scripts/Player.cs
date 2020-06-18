@@ -63,4 +63,10 @@ public class Player : MonoBehaviour
             transform.localPosition.z
             );
     }
+
+    private void OnTriggerEnter (Collider collision)
+    {
+        print("Trigger collision");
+    }
+
 }
