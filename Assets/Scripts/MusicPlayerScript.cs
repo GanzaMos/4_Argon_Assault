@@ -8,7 +8,13 @@ public class MusicPlayerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Object.DontDestroyOnLoad(GameObject.Find("Music Player"));
+        int numMusicPlayer = FindObjectsOfType<MusicPlayerScript>().Length;
+        if (numMusicPlayer > 1)
+        {
+            Destroy(gameObject);
+        }
+
+        DontDestroyOnLoad(gameObject);
     }
 
     // Update is called once per frame
