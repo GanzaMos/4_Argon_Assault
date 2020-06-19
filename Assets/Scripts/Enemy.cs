@@ -28,7 +28,6 @@ public class Enemy : MonoBehaviour
 
     void OnParticleCollision(GameObject other)
     {
-        print("Hit on enemy" + gameObject.name);
         scoreBoard.ScoreHit(scoreValue);
         DeathSequance();
     }

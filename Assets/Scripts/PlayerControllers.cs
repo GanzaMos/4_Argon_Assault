@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
-public class MovementAndRotation : MonoBehaviour
+public class PlayerControllers : MonoBehaviour
 {
     [Header("Offset speed")]
     [Tooltip("ms^-1")] [SerializeField] float xSpeed = 150f;
     [Tooltip("ms^-1")] [SerializeField] float ySpeed = 150f;
+    [SerializeField] GameObject[] guns;
 
 
     [Header("Limits available screen to movement")]
@@ -41,6 +42,25 @@ public class MovementAndRotation : MonoBehaviour
         {
             ProcessTranslation();
             ProcessRotation();
+            ProcessFiring();
+        }
+    }
+
+    private void ProcessFiring()
+    {
+        if (CrossPlatformInputManager.GetButton("Fire") == true)
+        {
+            foreach (GameObject gameObject in guns)
+            {
+                gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            foreach (GameObject gameObject in guns)
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
 
