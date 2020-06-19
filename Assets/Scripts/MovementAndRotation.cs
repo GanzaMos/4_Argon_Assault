@@ -47,7 +47,6 @@ public class MovementAndRotation : MonoBehaviour
     void OnPlayerDeath() //called by string referance. Don't rename!
     {
         controlEnable = false;
-        print("Movement frozen");
     }
 
     private void ProcessRotation()
